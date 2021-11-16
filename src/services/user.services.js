@@ -7,7 +7,9 @@ const axiosInstance = axios.create({ baseURL: API_URL });
 axiosInstance.interceptors.request.use(
     (config) => {
         const access_token = localStorage.getItem("access_token");
+
         if (access_token) {
+
             config.headers['Authorization'] = access_token;
         }
         return config;
@@ -18,27 +20,32 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-    (res) => {
-        console.log(res)
-        return res;
+    (response) => {
+        return response;
     },
     async (err) => {
         const originalConfig = err.config;
 
-        const refresh_token = localStorage.getItem("refresh_token");
+        const refresh_token = localStorage.getItem('refresh_token');
+
         if (refresh_token) {
-            if (originalConfig.url !== "/auth" && err.response) {
+
+            if (originalConfig.url !== "/auth/refresh" && err.response) {
+
                 if (err.response.status === 401 && !originalConfig._retry) {
                     originalConfig._retry = true;
-                    console.log(originalConfig._retry)
+
                     try {
-                        const rs = await axiosInstance.post("auth/refresh",
-                            { refresh_token });
-                        localStorage.setItem('access_token', rs.data.access_token);
-                        localStorage.setItem('refresh_token', rs.data.refresh_token)
+                        const response = await axiosInstance.post("/auth/refresh", {refresh_token});
+                        localStorage.setItem('access_token', response.data.access_token);
+                        localStorage.setItem('refresh_token', response.data.refres_token);
                         return axiosInstance(originalConfig);
-                    } catch (error) {
-                        return Promise.reject(error);
+                    } catch (_error) {
+                        if (_error.response.status === 401) {
+                            localStorage.clear();
+                            return window.location.href = '/authorization'
+                        }
+                        return Promise.reject(_error);
                     }
                 }
             }
