@@ -1,0 +1,21 @@
+.error{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -200%);
+    background-color: #dbdbdb;
+    width: 500px;
+    border: 1px solid #282c34;
+    color: #f30b1e;
+}
+
+.error.active{
+    transform: translate(-50%, 0%);
+}
+
+.error__title{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    column-gap: 30px;
+}
