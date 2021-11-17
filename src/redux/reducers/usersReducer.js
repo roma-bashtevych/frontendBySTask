@@ -1,3 +1,5 @@
+import { USER, LOG_OUT_USER, TOGGLE, ALL_THE_USERS } from '../actions'
+
 const initianState = {
     user: {},
     users: [],
@@ -6,16 +8,16 @@ const initianState = {
 
 export const usersReducer = (state = initianState, action) => {
     switch (action.type) {
-        case 'ALL_THE_USERS': {
+        case ALL_THE_USERS: {
             return { ...state, users: [...action.payload] }
         }
-        case 'USER': {
+        case USER: {
             return { ...state, user: action.payload }
         }
-        case 'LOG_OUT_USER': {
+        case LOG_OUT_USER: {
             return { ...state, user: {}, users: [] }
         }
-        case 'TOGGLE': {
+        case TOGGLE: {
             return {...state, toggle: action.payload}
         }
 

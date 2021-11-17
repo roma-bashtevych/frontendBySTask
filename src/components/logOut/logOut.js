@@ -1,5 +1,6 @@
 import {logOutUser} from "../../services/user.services";
 import {useDispatch} from "react-redux";
+import { exit } from '../../redux/actions'
 
 export default function LogOut() {
     const dispatch = useDispatch();
@@ -8,7 +9,7 @@ export default function LogOut() {
         try {
             const resp = await logOutUser()
             if (resp.status === 204) {
-                dispatch({ type: 'LOG_OUT_USER' });
+                dispatch(exit());
                 localStorage.clear();
                 window.location.href = '/login'
             }

@@ -4,6 +4,7 @@ import {authUser} from "../../services/user.services";
 import Error from "../error/Error";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
+import { setUser } from '../../redux/actions';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ export default function Login() {
         e.preventDefault()
         try {
             const resp = await authUser({ username, password });
-            dispatch({ type: 'USER', payload: resp.data.user });
+            dispatch(setUser(resp.data.user));
             localStorage.setItem('user', JSON.stringify(resp.data.user));
             localStorage.setItem('access_token', resp.data.access_token);
             localStorage.setItem('refresh_token', resp.data.refresh_token);

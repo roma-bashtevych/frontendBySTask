@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import User from "./user/User";
 import LogOut from "../logOut/logOut";
 import Error from "../error/Error";
+import { setAllUsers } from '../../redux/actions'
 
 export default function Users() {
     const history = useHistory();
@@ -19,7 +20,7 @@ export default function Users() {
     useEffect(() => {
         getAllUsers().then(resp => {
             setUsers(resp.data)
-            dispatch({ type: 'ALL_THE_USERS', payload: resp.data })
+            dispatch(setAllUsers(resp.data))
         }).catch((err) => {
             setError(err.response.data.message)
         });
